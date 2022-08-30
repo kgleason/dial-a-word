@@ -1,5 +1,5 @@
 import argparse
-import sys
+import requests
 
 letters = {
     '1': ['1'], 
@@ -21,7 +21,7 @@ def letters_to_digits():
             d[letter] = k
     return d
 
-def get_words(fname):
+def get_words_from_file(fname):
     with open(fname, 'r') as f:
         wl = f.read().replace("\n", " ").split()
     return wl
@@ -43,20 +43,33 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-m', '--min', help='Minimum number of characters for the potential word', type=int)
     parser.add_argument('-x', '--max', help='The maximum number of characters for the potential word', type=int)
-    parser.add_argument('-n', '--num', help='The number to test', required=True)
+    parser.add_argument('-n', '--num', help='A comma separated list of numbers to test', required=True)
+    parser.add_argument('-f', '--files', help='A comma separated list of filles to use as the word list')
+    parser.add_argument('-u', '--url', help='A URL from whence to fetch a word list. Assumes raw text, as in GitHub raw urls')
 
     args = parser.parse_args()
 
-    number = args.num
+    if not args.files and not args.url:
+        raise ValueError("Either the files or the URL parameter is required")
+
+    numbers = args.num.split(',')
     min_chars = args.min if args.min else 3
     max_chars = args.max if args.max else 7
 
     digit_map = letters_to_digits()
-    lexicon = get_words('short-words.txt')
-    lexicon += get_words('medium-words.txt')
+    lexicon = []
 
-    for word in lexicon:
-        if min_chars < len(word) < max_chars + 1:
-            worddigits = word_to_digits(word.upper(), digit_map)
-            if str(worddigits) in number:
-                print(f"{word.upper()}: {swap_digits_for_word(number, word, digit_map)}")
+    if args.files:
+        for file in args.files.split(','):
+            lexicon += get_words_from_file(file)
+
+    if args.url:
+        resp = requests.get(args.url)
+        lexicon += resp.text.replace("\n", " ").split()
+
+    for number in numbers:        
+        for word in lexicon:
+            if min_chars < len(word) < max_chars + 1:
+                worddigits = word_to_digits(word.upper(), digit_map)
+                if str(worddigits) in number:
+                    print(f"{number} , {word.upper()}, {swap_digits_for_word(number, word, digit_map)}")
