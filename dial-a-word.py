@@ -1,4 +1,5 @@
 import argparse
+import string
 import requests
 
 letters = {
@@ -14,30 +15,39 @@ letters = {
     '0': ['0']
     }
 
-def letters_to_digits():
+
+def letters_to_digits() -> dict:
+    """ Return a dict of mapping letters to phone digits """
     d = {}
     for k,v in letters.items():
         for letter in v:
             d[letter] = k
     return d
 
-def get_words_from_file(fname):
+
+def get_words_from_file(fname:string) -> list:
+    """ Load a word file, return a list of words in the file """
     with open(fname, 'r') as f:
         wl = f.read().replace("\n", " ").split()
     return wl
 
-def word_to_digits(word, dm):
+
+def word_to_digits(word:string, dm:dict) -> str:
+    """ Use the provided dict to convert a word to digits. Returns str """
     v = ""
     for letter in word:
         v += dm[letter]
     return v
 
-def swap_digits_for_word(num, word, d):
+
+def swap_digits_for_word(num:string, word:string, d:dict) -> str:
+    """ Return a string that has replaced the relevant digits with letters """
     digit_string = ""
     for ltr in word:
         digit_string += d[ltr.upper()]
     
     return num.replace(digit_string, word.upper())
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -72,4 +82,4 @@ if __name__ == '__main__':
             if min_chars < len(word) < max_chars + 1:
                 worddigits = word_to_digits(word.upper(), digit_map)
                 if str(worddigits) in number:
-                    print(f"{number} , {word.upper()}, {swap_digits_for_word(number, word, digit_map)}")
+                    print(f"{number}, {word.upper()}, {swap_digits_for_word(number, word, digit_map)}")
