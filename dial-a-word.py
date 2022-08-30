@@ -1,4 +1,4 @@
-from itertools import combinations_with_replacement
+import argparse
 import sys
 
 letters = {
@@ -40,17 +40,23 @@ def swap_digits_for_word(num, word, d):
     return num.replace(digit_string, word.upper())
 
 if __name__ == '__main__':
-    if not sys.argv[1]:
-        raise IndexError("Need a parameter.")
-    
-    number = sys.argv[1]
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-m', '--min', help='Minimum number of characters for the potential word', type=int)
+    parser.add_argument('-x', '--max', help='The maximum number of characters for the potential word', type=int)
+    parser.add_argument('-n', '--num', help='The number to test', required=True)
+
+    args = parser.parse_args()
+
+    number = args.num
+    min_chars = args.min if args.min else 3
+    max_chars = args.max if args.max else 7
 
     digit_map = letters_to_digits()
     lexicon = get_words('short-words.txt')
     lexicon += get_words('medium-words.txt')
 
     for word in lexicon:
-        if 3 < len(word) < 8:
+        if min_chars < len(word) < max_chars + 1:
             worddigits = word_to_digits(word.upper(), digit_map)
             if str(worddigits) in number:
                 print(f"{word.upper()}: {swap_digits_for_word(number, word, digit_map)}")
