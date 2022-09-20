@@ -25,14 +25,14 @@ def letters_to_digits() -> dict:
     return d
 
 
-def get_words_from_file(fname:string) -> list:
+def get_words_from_file(fname:str) -> list:
     """ Load a word file, return a list of words in the file """
     with open(fname, 'r') as f:
         wl = f.read().replace("\n", " ").split()
     return wl
 
 
-def word_to_digits(word:string, dm:dict) -> str:
+def word_to_digits(word:str, dm:dict) -> str:
     """ Use the provided dict to convert a word to digits. Returns str """
     v = ""
     for letter in word:
@@ -40,7 +40,7 @@ def word_to_digits(word:string, dm:dict) -> str:
     return v
 
 
-def swap_digits_for_word(num:string, word:string, d:dict) -> str:
+def swap_digits_for_word(num:str, word:str, d:dict) -> str:
     """ Return a string that has replaced the relevant digits with letters """
     digit_string = ""
     for ltr in word:
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     parser.add_argument('-x', '--max', help='The maximum number of characters for the potential word', type=int)
     parser.add_argument('-n', '--num', help='A comma separated list of numbers to test', required=True)
     parser.add_argument('-f', '--files', help='A comma separated list of filles to use as the word list')
-    parser.add_argument('-u', '--url', help='A URL from whence to fetch a word list. Assumes raw text, as in GitHub raw urls')
+    parser.add_argument('-u', '--url', help='A URL whence to fetch a word list. Assumes raw text, as in GitHub raw urls')
 
     args = parser.parse_args()
 
