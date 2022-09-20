@@ -17,7 +17,9 @@ letters = {
 
 
 def letters_to_digits() -> dict:
-    """ Return a dict of mapping letters to phone digits """
+    """ Return a dict of mapping letters to phone digits 
+    :return: dict of digits mapped to letters
+    """
     d = {}
     for k,v in letters.items():
         for letter in v:
@@ -26,14 +28,21 @@ def letters_to_digits() -> dict:
 
 
 def get_words_from_file(fname:str) -> list:
-    """ Load a word file, return a list of words in the file """
+    """ Load a word file, return a list of words in the file 
+    :param fname: Filename to get word list from
+    :return: List of words
+    """
     with open(fname, 'r') as f:
         wl = f.read().replace("\n", " ").split()
     return wl
 
 
 def word_to_digits(word:str, dm:dict) -> str:
-    """ Use the provided dict to convert a word to digits. Returns str """
+    """ Use the provided dict to convert a word to digits.
+    :param word: A word to turn into a string of digits
+    :param dm: A dict of digits mapped to letters
+    :return: A string of digits
+    """
     v = ""
     for letter in word:
         v += dm[letter]
@@ -41,7 +50,12 @@ def word_to_digits(word:str, dm:dict) -> str:
 
 
 def swap_digits_for_word(num:str, word:str, d:dict) -> str:
-    """ Return a string that has replaced the relevant digits with letters """
+    """ Return a string that has replaced the relevant digits with letters 
+    :param num: a Phone Number
+    :param word: a word to put into the phone number
+    :param d: a dict of letters mapped to digits
+    :return: a string of digits and letters that represent a phone number with a word
+    """
     digit_string = ""
     for ltr in word:
         digit_string += d[ltr.upper()]
