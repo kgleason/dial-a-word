@@ -84,8 +84,7 @@ if __name__ == '__main__':
     lexicon = []
 
     if args.files:
-        for file in args.files.split(','):
-            lexicon += get_words_from_file(file)
+        lexicon += get_words_from_file(file for file in args.files.split(','))
 
     if args.url:
         resp = requests.get(args.url)
