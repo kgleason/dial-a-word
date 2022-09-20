@@ -1,5 +1,5 @@
 # Dial A Word
-This script was inspired by an article in 2600 39:2 by N1xis10t. The formatting of the published script had some formatting issues, and I was never able to run it successfully as it was published. I made some guesses at what should be indented where, and I ended up with something that ran, but it felt really slow. It could very well be because of my decisions about the scoping.
+This script was inspired by an article in 2600 39:2 by N1xis10t. The formatting of the published script had some issues, and I was never able to run it successfully as it was published. I made some guesses at what should be indented where, and I ended up with something that ran, but it felt really slow. It could very well be because of my decisions about the scoping.
 
 In any case, it seemed like an interesting idea. So I took a stab at making something that approached the problem from a different perspective. In this case, the envisioned use case is one where you have a list of phone numbers, and you want to see what words may be in it. It runs perfectly fine with just a single number, but you can pass in multiple numbers as well.
 
